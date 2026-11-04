@@ -7,21 +7,11 @@ import {
 import { useTheme } from '../context/ThemeContext.tsx';
 import {
   Search,
-  Code2,
-  Database,
-  Cpu,
-  Layers,
-  Terminal,
-  Shield,
-  Eye,
-  Zap,
-  Box,
-  Image as ImageIcon,
-  Sparkles,
   ExternalLink,
   X,
   Info
 } from 'lucide-react';
+import { SkillLogo } from './SkillLogo.tsx';
 import { ScrollReveal, StaggerContainer, StaggerItem } from './ScrollReveal.tsx';
 
 export const SkillsSection: React.FC = () => {
@@ -55,33 +45,6 @@ export const SkillsSection: React.FC = () => {
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
-
-  // Icon mapping helper with striking crimson & high-contrast cyberpunk accents
-  const renderSkillIcon = (iconType: string) => {
-    switch (iconType) {
-      case 'database':
-        return <Database className="w-5 h-5 text-red-400" />;
-      case 'cpu':
-        return <Cpu className="w-5 h-5 text-rose-400" />;
-      case 'eye':
-        return <Eye className="w-5 h-5 text-red-400" />;
-      case 'zap':
-        return <Zap className="w-5 h-5 text-amber-400" />;
-      case 'box':
-        return <Box className="w-5 h-5 text-rose-300" />;
-      case 'image':
-        return <ImageIcon className="w-5 h-5 text-red-400" />;
-      case 'shield':
-        return <Shield className="w-5 h-5 text-red-400" />;
-      case 'terminal':
-        return <Terminal className="w-5 h-5 text-amber-300" />;
-      case 'layout':
-      case 'react':
-      case 'code':
-      default:
-        return <Code2 className="w-5 h-5 text-red-400" />;
-    }
-  };
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -179,7 +142,7 @@ export const SkillsSection: React.FC = () => {
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="p-2.5 rounded-xl bg-gradient-to-br from-red-950/50 to-black/80 backdrop-blur-xs border border-red-900/40 group-hover:border-red-500/50 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.25)] transition-all shadow-inner">
-                      {renderSkillIcon(skill.iconType)}
+                      <SkillLogo name={skill.name} className="w-5 h-5" />
                     </div>
                     <span
                       className={`text-[10px] font-mono px-2 py-0.5 rounded-md backdrop-blur-xs border ${getLevelColor(
@@ -242,7 +205,7 @@ export const SkillsSection: React.FC = () => {
 
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-red-950/60 to-black/80 backdrop-blur-xs border border-red-500/30 shadow-inner">
-                  {renderSkillIcon(selectedSkill.iconType)}
+                  <SkillLogo name={selectedSkill.name} className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold font-display text-white">
