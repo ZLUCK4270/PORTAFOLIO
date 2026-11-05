@@ -1,8 +1,0 @@
-# Carpeta donde k6 generará automáticamente los reportes HTML interactivos
-# Ejemplos:
-# - smoke-test-summary.html
-# - load-test-summary.html
-# - stress-test-summary.html
-# - spike-test-summary.html
-# - soak-test-summary.html
-
