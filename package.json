@@ -8,7 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "k6:smoke": ".\\k6.exe run K6/smoke-test.js",
+    "k6:load": ".\\k6.exe run K6/load-test.js",
+    "k6:stress": ".\\k6.exe run K6/stress-test.js",
+    "k6:spike": ".\\k6.exe run K6/spike-test.js",
+    "k6:soak": ".\\k6.exe run K6/soak-test.js"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

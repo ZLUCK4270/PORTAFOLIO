@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
             <a
               href="https://github.com/ZLUCK4270"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="p-2 rounded-lg bg-[#0e1424] hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-800"
               title="GitHub: ZLUCK4270"
               aria-label="Perfil de GitHub"
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
             <a
               href="https://www.linkedin.com/in/lucianoac25"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="p-2 rounded-lg bg-[#0e1424] hover:bg-slate-800 text-slate-400 hover:text-blue-400 transition-colors cursor-pointer border border-slate-800"
               title="LinkedIn: lucianoac25"
               aria-label="Conexión LinkedIn"

@@ -107,7 +107,7 @@ export const HeroSection: React.FC = () => {
                 <a
                   href="https://github.com/ZLUCK4270"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <Github className="w-3.5 h-3.5" />
@@ -117,7 +117,7 @@ export const HeroSection: React.FC = () => {
                 <a
                   href="https://www.linkedin.com/in/lucianoac25"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="hover:text-blue-400 transition-colors flex items-center gap-1.5"
                 >
                   <Linkedin className="w-3.5 h-3.5 text-blue-400" />
