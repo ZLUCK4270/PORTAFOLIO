@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowUp, Github, Linkedin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -7,34 +7,34 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#050306] border-t border-red-950/40 py-12 text-xs text-slate-400">
+    <footer className="bg-[#050810] border-t border-slate-800/80 py-12 text-xs text-slate-400 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand & Identity */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <span className="text-sm font-bold font-display text-white">
               Zenón Luciano Acuña Chuquihuanca
             </span>
             <span className="text-xs text-slate-500 mt-1">
-              Ingeniería de Software con Inteligencia Artificial · SENATI
+              Ingeniería de Software con Inteligencia Artificial · SENATI Quinto Ciclo
             </span>
           </div>
 
           {/* Clean Navigation Links */}
-          <div className="flex items-center gap-6 text-xs text-slate-400">
-            <a href="#presentacion" className="hover:text-red-400 transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
+            <a href="#presentacion" className="hover:text-blue-400 transition-colors">
               Inicio
             </a>
-            <a href="#trayectoria" className="hover:text-red-400 transition-colors">
-              Trayectoria
+            <a href="#trayectoria" className="hover:text-blue-400 transition-colors">
+              Certificaciones & Trayectoria
             </a>
-            <a href="#habilidades" className="hover:text-red-400 transition-colors">
+            <a href="#habilidades" className="hover:text-blue-400 transition-colors">
               Habilidades
             </a>
-            <a href="#proyectos" className="hover:text-red-400 transition-colors">
+            <a href="#proyectos" className="hover:text-blue-400 transition-colors">
               Proyectos IA
             </a>
-            <a href="#contacto" className="hover:text-red-400 transition-colors">
+            <a href="#contacto" className="hover:text-blue-400 transition-colors">
               Contacto
             </a>
           </div>
@@ -45,7 +45,7 @@ export const Footer: React.FC = () => {
               href="https://github.com/ZLUCK4270"
               target="_blank"
               rel="noreferrer"
-              className="p-2 rounded-lg bg-[#0d070a] hover:bg-[#18090f] text-slate-400 hover:text-red-400 transition-colors cursor-pointer border border-red-950/60"
+              className="p-2 rounded-lg bg-[#0e1424] hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-800"
               title="GitHub: ZLUCK4270"
               aria-label="Perfil de GitHub"
             >
@@ -55,7 +55,7 @@ export const Footer: React.FC = () => {
               href="https://www.linkedin.com/in/lucianoac25"
               target="_blank"
               rel="noreferrer"
-              className="p-2 rounded-lg bg-[#0d070a] hover:bg-[#18090f] text-slate-400 hover:text-red-400 transition-colors cursor-pointer border border-red-950/60"
+              className="p-2 rounded-lg bg-[#0e1424] hover:bg-slate-800 text-slate-400 hover:text-blue-400 transition-colors cursor-pointer border border-slate-800"
               title="LinkedIn: lucianoac25"
               aria-label="Conexión LinkedIn"
             >
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
             </a>
             <button
               onClick={scrollToTop}
-              className="p-2 px-3 rounded-lg bg-[#0d070a] hover:bg-[#18090f] text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1.5 cursor-pointer border border-red-950/60 ml-1"
+              className="p-2 px-3 rounded-lg bg-[#0e1424] hover:bg-slate-800 text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer border border-slate-800 ml-1"
               aria-label="Volver arriba"
             >
               <span>Subir</span>
@@ -72,12 +72,12 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-slate-900/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-600">
+        <div className="mt-8 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
           <div>
             © {new Date().getFullYear()} Zenón Luciano Acuña Chuquihuanca. Todos los derechos reservados.
           </div>
           <div className="font-mono text-slate-500">
-            Desarrollado con Three.js, React & Tailwind CSS
+            Portafolio Profesional · Ingeniería de Software & IA
           </div>
         </div>
       </div>

@@ -1,31 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { useTheme } from '../context/ThemeContext.tsx';
+import { useTheme, AccentTheme } from '../context/ThemeContext.tsx';
+import { Cpu, Play, Pause } from 'lucide-react';
 
 interface Hero3DCanvasProps {
   className?: string;
 }
 
 type ModeType = 'neural' | 'quantum' | 'constellation';
-type ColorScheme = 'crimson' | 'cyan' | 'emerald' | 'violet';
 
-// Module-scope reusable math vectors for zero garbage collection in render loop
+// Reusable math vectors for zero garbage collection in render loop
 const _targetRotation = new THREE.Vector2(0, 0);
 const _currentRotation = new THREE.Vector2(0, 0);
 
 export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) => {
-  const { accentTheme } = useTheme();
+  const { accentTheme, setAccentTheme } = useTheme();
   const mountRef = useRef<HTMLDivElement>(null);
   const [activeMode, setActiveMode] = useState<ModeType>('neural');
-  const [activeColor, setActiveColor] = useState<ColorScheme>(accentTheme);
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const [isControlsExpanded, setIsControlsExpanded] = useState<boolean>(true);
-
-  // Sync with global accent theme when changed
-  useEffect(() => {
-    setActiveColor(accentTheme);
-  }, [accentTheme]);
+  const [isControlsExpanded, setIsControlsExpanded] = useState<boolean>(false);
 
   // References for mutable animation state
   const sceneRef = useRef<{
@@ -40,16 +34,16 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     particles?: THREE.Points;
     grid?: THREE.GridHelper;
     frameId?: number;
-    colorScheme?: ColorScheme;
+    colorScheme?: AccentTheme;
     mode?: ModeType;
     paused?: boolean;
   }>({});
 
-  // Update color and mode refs
+  // Update color scheme when accentTheme changes
   useEffect(() => {
-    sceneRef.current.colorScheme = activeColor;
-    updateColors(activeColor);
-  }, [activeColor]);
+    sceneRef.current.colorScheme = accentTheme;
+    updateColors(accentTheme);
+  }, [accentTheme]);
 
   useEffect(() => {
     sceneRef.current.mode = activeMode;
@@ -60,27 +54,24 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     sceneRef.current.paused = isPaused;
   }, [isPaused]);
 
-  const updateColors = (scheme: ColorScheme) => {
+  const updateColors = (scheme: AccentTheme) => {
     const { innerCoreMesh, outerWireframeMesh, ring1, ring2, particles } = sceneRef.current;
-    let primaryHex = 0x06b6d4; // Cyan
-    let secondaryHex = 0x38bdf8;
+    let primaryHex = 0x2563eb; // Executive Cobalt
+    let secondaryHex = 0x60a5fa;
 
-    if (scheme === 'crimson') {
-      primaryHex = 0xdc2626; // Ruby / Crimson warrior blade
-      secondaryHex = 0xf43f5e; // Fiery crimson highlight
-    } else if (scheme === 'emerald') {
-      primaryHex = 0x10b981; // Emerald
+    if (scheme === 'emerald') {
+      primaryHex = 0x10b981; // Tech Emerald
       secondaryHex = 0x34d399;
-    } else if (scheme === 'violet') {
-      primaryHex = 0x8b5cf6; // Violet
-      secondaryHex = 0xa78bfa;
+    } else if (scheme === 'cyan') {
+      primaryHex = 0x06b6d4; // Data Cyan
+      secondaryHex = 0x38bdf8;
     }
 
     if (innerCoreMesh && (innerCoreMesh.material as THREE.MeshStandardMaterial)) {
       const mat = innerCoreMesh.material as THREE.MeshStandardMaterial;
       mat.color.setHex(primaryHex);
       mat.emissive.setHex(primaryHex);
-      mat.emissiveIntensity = 0.45;
+      mat.emissiveIntensity = 0.4;
     }
 
     if (outerWireframeMesh && (outerWireframeMesh.material as THREE.LineBasicMaterial)) {
@@ -119,7 +110,7 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
       ring1.visible = true;
       ring2.visible = true;
       particles.visible = false;
-      innerCoreMesh.scale.set(1.4, 1.4, 1.4);
+      innerCoreMesh.scale.set(1.25, 1.25, 1.25);
     } else if (mode === 'constellation') {
       innerCoreMesh.visible = false;
       outerWireframeMesh.visible = true;
@@ -148,16 +139,17 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
       }
     })();
 
-    const width = container.clientWidth || 600;
-    const height = container.clientHeight || 500;
+    const width = container.clientWidth || 550;
+    const height = container.clientHeight || 480;
 
     // Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x080b11, 0.045);
+    scene.fog = new THREE.FogExp2(0x080b12, 0.045);
 
-    // Camera
+    // Camera - Centered right at origin (0, 0, 5.2) looking at (0, 0, 0)
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 1.2, 5.8);
+    camera.position.set(0, 0, 5.2);
+    camera.lookAt(0, 0, 0);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -169,40 +161,41 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
 
-    // Procedural Studio Environment Reflection
+    // Environment map
     try {
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
       scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
       pmremGenerator.dispose();
     } catch {
-      // Fallback if environment setup encounters issues
+      // Fallback
     }
 
-    // Lighting (Warm Key + Cool Fill)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
-    keyLight.position.set(4, 6, 5);
+    // Lighting (Corporate Clean Key + Subtle Rim)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    keyLight.position.set(4, 5, 5);
     scene.add(keyLight);
 
-    const hemiLight = new THREE.HemisphereLight(0x06b6d4, 0x090b10, 1.2);
+    const hemiLight = new THREE.HemisphereLight(0x3b82f6, 0x080b12, 1.1);
     scene.add(hemiLight);
 
-    const blueRimLight = new THREE.PointLight(0x38bdf8, 3.5, 10);
-    blueRimLight.position.set(-4, -2, -2);
-    scene.add(blueRimLight);
+    const rimLight = new THREE.PointLight(0x60a5fa, 2.5, 10);
+    rimLight.position.set(-4, -2, -2);
+    scene.add(rimLight);
 
-    // Composite 3D procedural object (Multi-part THREE.Group)
+    // Composite 3D procedural object - strictly centered at origin (0, 0, 0)
     const coreGroup = new THREE.Group();
+    coreGroup.position.set(0, 0, 0);
     scene.add(coreGroup);
 
-    // 1. Inner core: Octahedron faceted jewel
-    const innerGeom = new THREE.OctahedronGeometry(1.0, 0);
+    // 1. Inner core: Octahedron (optimized scale)
+    const innerGeom = new THREE.OctahedronGeometry(0.85, 0);
     const innerMat = new THREE.MeshStandardMaterial({
-      color: 0x06b6d4,
-      emissive: 0x06b6d4,
-      emissiveIntensity: 0.45,
+      color: 0x2563eb,
+      emissive: 0x1d4ed8,
+      emissiveIntensity: 0.35,
       metalness: 0.85,
       roughness: 0.2,
       flatShading: true,
@@ -210,23 +203,23 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     const innerCoreMesh = new THREE.Mesh(innerGeom, innerMat);
     coreGroup.add(innerCoreMesh);
 
-    // 2. Outer Wireframe: Icosahedron cage
-    const outerGeom = new THREE.IcosahedronGeometry(1.5, 1);
+    // 2. Outer Wireframe: Icosahedron cage (centered & balanced)
+    const outerGeom = new THREE.IcosahedronGeometry(1.28, 1);
     const wireframeGeom = new THREE.WireframeGeometry(outerGeom);
     const wireframeMat = new THREE.LineBasicMaterial({
-      color: 0x38bdf8,
+      color: 0x60a5fa,
       transparent: true,
-      opacity: 0.65,
+      opacity: 0.55,
     });
     const outerWireframeMesh = new THREE.LineSegments(wireframeGeom, wireframeMat);
     coreGroup.add(outerWireframeMesh);
 
-    // 3. Torus Ring 1 (Horizontal axis tilt)
-    const ring1Geom = new THREE.TorusGeometry(2.0, 0.02, 16, 80);
+    // 3. Torus Ring 1 (compact radius so it never bleeds or clips)
+    const ring1Geom = new THREE.TorusGeometry(1.68, 0.016, 16, 80);
     const ring1Mat = new THREE.MeshStandardMaterial({
-      color: 0x06b6d4,
-      emissive: 0x06b6d4,
-      emissiveIntensity: 0.35,
+      color: 0x2563eb,
+      emissive: 0x1d4ed8,
+      emissiveIntensity: 0.3,
       metalness: 0.9,
       roughness: 0.1,
     });
@@ -234,12 +227,12 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     ring1.rotation.x = Math.PI / 3;
     coreGroup.add(ring1);
 
-    // 4. Torus Ring 2 (Vertical opposing tilt)
-    const ring2Geom = new THREE.TorusGeometry(2.35, 0.015, 16, 80);
+    // 4. Torus Ring 2
+    const ring2Geom = new THREE.TorusGeometry(1.95, 0.014, 16, 80);
     const ring2Mat = new THREE.MeshStandardMaterial({
-      color: 0x8b5cf6,
-      emissive: 0x8b5cf6,
-      emissiveIntensity: 0.35,
+      color: 0x38bdf8,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.3,
       metalness: 0.9,
       roughness: 0.1,
     });
@@ -248,11 +241,11 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     ring2.rotation.x = -Math.PI / 6;
     coreGroup.add(ring2);
 
-    // 5. Orbital Particles / Neural Data Nodes
-    const particleCount = 280;
+    // 5. Orbital Particles (Neural network vector nodes)
+    const particleCount = 200;
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
-      const radius = 1.8 + Math.random() * 2.2;
+      const radius = 1.4 + Math.random() * 1.6;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
       particlePositions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
@@ -262,19 +255,19 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     const particleGeom = new THREE.BufferGeometry();
     particleGeom.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
-      color: 0x38bdf8,
-      size: 0.045,
+      color: 0x60a5fa,
+      size: 0.035,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.75,
     });
     const particles = new THREE.Points(particleGeom, particleMat);
     coreGroup.add(particles);
 
-    // 6. Perspective Grid Floor
-    const grid = new THREE.GridHelper(18, 30, 0x0e7490, 0x1e293b);
-    grid.position.y = -2.2;
+    // 6. Perspective Grid Floor (positioned cleanly beneath core)
+    const grid = new THREE.GridHelper(14, 22, 0x1e3a8a, 0x1e293b);
+    grid.position.y = -1.65;
     grid.material.transparent = true;
-    grid.material.opacity = 0.35;
+    grid.material.opacity = 0.22;
     scene.add(grid);
 
     // Save references
@@ -289,18 +282,20 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
       ring2,
       particles,
       grid,
-      colorScheme: activeColor,
+      colorScheme: accentTheme,
       mode: activeMode,
       paused: false,
     };
 
-    // Mouse movement tracking with normalized coordinate offset
+    updateColors(accentTheme);
+
+    // Mouse movement tracking with subtle tilt around center
     const handlePointerMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      _targetRotation.x = y * 0.45;
-      _targetRotation.y = x * 0.65;
+      _targetRotation.x = y * 0.25;
+      _targetRotation.y = x * 0.35;
     };
 
     window.addEventListener('pointermove', handlePointerMove);
@@ -326,28 +321,25 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
       const elapsed = clock.getElapsedTime();
 
       if (!sceneRef.current.paused) {
-        // Continuous organic rotation
-        coreGroup.rotation.y += delta * 0.4;
-        coreGroup.rotation.x += delta * 0.15;
+        coreGroup.rotation.y += delta * 0.3;
+        coreGroup.rotation.x += delta * 0.1;
 
-        ring1.rotation.z += delta * 0.5;
-        ring2.rotation.z -= delta * 0.35;
-        particles.rotation.y -= delta * 0.15;
+        ring1.rotation.z += delta * 0.38;
+        ring2.rotation.z -= delta * 0.25;
+        particles.rotation.y -= delta * 0.1;
 
-        // Subtle breathing scale pulse
-        const breath = 1.0 + Math.sin(elapsed * 1.5) * 0.04;
+        const breath = 1.0 + Math.sin(elapsed * 1.4) * 0.03;
         outerWireframeMesh.scale.set(breath, breath, breath);
 
-        // Grid gentle drift
-        grid.position.z = (elapsed * 0.3) % 0.6;
+        grid.position.z = (elapsed * 0.2) % 0.6;
       }
 
-      // Smooth exponential damping toward pointer interaction
+      // Smooth exponential damping toward pointer interaction while keeping center locked
       _currentRotation.x = THREE.MathUtils.damp(_currentRotation.x, _targetRotation.x, 4, delta);
       _currentRotation.y = THREE.MathUtils.damp(_currentRotation.y, _targetRotation.y, 4, delta);
 
-      coreGroup.position.x = _currentRotation.y * 0.8;
-      coreGroup.position.y = _currentRotation.x * 0.5;
+      coreGroup.position.x = _currentRotation.y * 0.35;
+      coreGroup.position.y = _currentRotation.x * 0.25;
 
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(tick);
@@ -356,13 +348,11 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
     frameId = requestAnimationFrame(tick);
     sceneRef.current.frameId = frameId;
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('resize', handleResize);
 
-      // Dispose Three.js objects
       innerGeom.dispose();
       innerMat.dispose();
       outerGeom.dispose();
@@ -384,43 +374,41 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
   }, []);
 
   return (
-    <div className={`relative w-full h-full min-h-[460px] md:min-h-[560px] flex items-center justify-center overflow-hidden rounded-2xl border border-slate-800/80 bg-[#090d16]/60 backdrop-blur-xs ${className}`}>
+    <div className={`relative w-full h-full min-h-[440px] md:min-h-[500px] flex items-center justify-center overflow-hidden rounded-2xl border border-slate-800/90 bg-[#0c1220]/75 backdrop-blur-md shadow-2xl ${className}`}>
       {/* 3D WebGL Canvas Mount */}
       <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing" />
 
-      {/* Decorative Corner Accents */}
-      <div className="absolute top-3 left-3 flex items-center gap-1.5 text-xs font-mono text-cyan-400/80 pointer-events-none select-none">
-        <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full" />
-        <span>NÚCLEO 3D INTERACTIVO // THREE.JS</span>
+      {/* Clean Unboxed Section Identifier */}
+      <div className="absolute top-4 left-4 flex items-center gap-2 text-xs font-mono text-slate-400 pointer-events-none select-none">
+        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+        <span>Modelo 3D Interactivo · Red Neuronal</span>
       </div>
 
-      <div className="absolute top-3 right-3 text-xs font-mono text-slate-500 pointer-events-none select-none">
-        SENATI · IA & SOFTWARE
+      <div className="absolute top-4 right-4 text-xs font-mono text-slate-500 pointer-events-none select-none">
+        SENATI · Quinto Ciclo
       </div>
 
-      {/* Collapsible Bottom Dock (Consolidated controls, zero viewport occlusion) */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 w-[94%] max-w-lg transition-all duration-300">
+      {/* Discrete Bottom Control Toolbar */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 w-[92%] max-w-md transition-all duration-300">
         <div className="flex flex-col items-center">
-          {/* Collapse/Expand Toggle */}
           <button
             onClick={() => setIsControlsExpanded(!isControlsExpanded)}
-            className="mb-1.5 px-3 py-1 text-[11px] font-mono text-slate-400 hover:text-cyan-300 bg-slate-900/90 border border-slate-700/60 rounded-full shadow-lg transition-colors flex items-center gap-1 cursor-pointer"
-            aria-label="Alternar controles 3D"
+            className="mb-1 px-3 py-1 text-[11px] font-sans font-medium text-slate-400 hover:text-white bg-slate-900/90 border border-slate-700/60 rounded-lg shadow-md transition-colors flex items-center gap-1.5 cursor-pointer backdrop-blur-xs"
+            aria-label="Controles del modelo 3D"
           >
-            <span>{isControlsExpanded ? '▾ Ocultar Controles' : '▴ Controles 3D'}</span>
+            <Cpu className="w-3.5 h-3.5 text-blue-400" />
+            <span>{isControlsExpanded ? 'Ocultar ajustes' : 'Personalizar modelo 3D'}</span>
           </button>
 
-          {/* Unified Bottom Control Panel */}
           {isControlsExpanded && (
-            <div className="w-full bg-slate-950/95 border border-slate-800/90 rounded-xl p-2.5 shadow-2xl flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="w-full bg-slate-950/95 border border-slate-800 rounded-xl p-2.5 shadow-2xl flex flex-wrap items-center justify-between gap-2 text-xs">
               {/* Visual Modes */}
               <div className="flex items-center gap-1">
-                <span className="text-[10px] font-mono text-slate-500 uppercase mr-1">Modo:</span>
                 <button
                   onClick={() => setActiveMode('neural')}
-                  className={`px-2.5 py-1 rounded-md transition-all font-mono text-[11px] cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
                     activeMode === 'neural'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                      ? 'bg-blue-600 text-white shadow-xs'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
@@ -428,64 +416,58 @@ export const Hero3DCanvas: React.FC<Hero3DCanvasProps> = ({ className = '' }) =>
                 </button>
                 <button
                   onClick={() => setActiveMode('quantum')}
-                  className={`px-2.5 py-1 rounded-md transition-all font-mono text-[11px] cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
                     activeMode === 'quantum'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                      ? 'bg-blue-600 text-white shadow-xs'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  Cuántica
+                  Estructura
                 </button>
                 <button
                   onClick={() => setActiveMode('constellation')}
-                  className={`px-2.5 py-1 rounded-md transition-all font-mono text-[11px] cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
                     activeMode === 'constellation'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                      ? 'bg-blue-600 text-white shadow-xs'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  Datos
+                  Datos Vectoriales
                 </button>
               </div>
 
-              {/* Color Themes & Pause */}
+              {/* Accent & Pause */}
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5 pl-2 border-l border-slate-800">
                   <button
-                    onClick={() => setActiveColor('crimson')}
-                    title="Carmesí Furia (Guerrero)"
-                    className={`w-4 h-4 rounded-full bg-red-500 transition-all cursor-pointer ${
-                      activeColor === 'crimson' ? 'ring-2 ring-red-400 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
+                    onClick={() => setAccentTheme('cobalt')}
+                    title="Cobalto Ejecutivo"
+                    className={`w-3.5 h-3.5 rounded-full bg-blue-600 transition-all cursor-pointer ${
+                      accentTheme === 'cobalt' ? 'ring-2 ring-blue-400 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
                     }`}
                   />
                   <button
-                    onClick={() => setActiveColor('cyan')}
-                    title="Cian Neón"
-                    className={`w-4 h-4 rounded-full bg-cyan-400 transition-all cursor-pointer ${
-                      activeColor === 'cyan' ? 'ring-2 ring-cyan-300 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
+                    onClick={() => setAccentTheme('cyan')}
+                    title="Cian IA"
+                    className={`w-3.5 h-3.5 rounded-full bg-cyan-400 transition-all cursor-pointer ${
+                      accentTheme === 'cyan' ? 'ring-2 ring-cyan-300 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
                     }`}
                   />
                   <button
-                    onClick={() => setActiveColor('emerald')}
-                    title="Esmeralda IA"
-                    className={`w-4 h-4 rounded-full bg-emerald-400 transition-all cursor-pointer ${
-                      activeColor === 'emerald' ? 'ring-2 ring-emerald-300 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
-                    }`}
-                  />
-                  <button
-                    onClick={() => setActiveColor('violet')}
-                    title="Violeta Cyber"
-                    className={`w-4 h-4 rounded-full bg-purple-500 transition-all cursor-pointer ${
-                      activeColor === 'violet' ? 'ring-2 ring-purple-400 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
+                    onClick={() => setAccentTheme('emerald')}
+                    title="Esmeralda Tech"
+                    className={`w-3.5 h-3.5 rounded-full bg-emerald-500 transition-all cursor-pointer ${
+                      accentTheme === 'emerald' ? 'ring-2 ring-emerald-300 ring-offset-2 ring-offset-slate-950 scale-110' : 'opacity-60 hover:opacity-100'
                     }`}
                   />
                 </div>
 
                 <button
                   onClick={() => setIsPaused(!isPaused)}
-                  className="px-2 py-1 text-[11px] font-mono text-slate-400 hover:text-slate-200 border border-slate-800 rounded bg-slate-900/60 cursor-pointer"
+                  className="p-1 px-2 text-[11px] font-sans text-slate-400 hover:text-white border border-slate-800 rounded bg-slate-900/80 cursor-pointer flex items-center gap-1"
                 >
-                  {isPaused ? 'Reanudar' : 'Pausar'}
+                  {isPaused ? <Play className="w-3 h-3 text-emerald-400" /> : <Pause className="w-3 h-3 text-slate-400" />}
+                  <span>{isPaused ? 'Reanudar' : 'Pausar'}</span>
                 </button>
               </div>
             </div>

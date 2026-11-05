@@ -492,3 +492,214 @@ export const AI_PROJECTS_DATA: AIProjectItem[] = [
     icon: 'layers'
   }
 ];
+
+export interface CredentialItem {
+  id: string;
+  title: string;
+  issuer: 'Cisco' | 'Red Hat';
+  type: 'badge' | 'certificate';
+  status: 'Verified' | 'Certificado' | 'Pending' | 'Participant';
+  issuedDate: string;
+  category: string;
+  description: string;
+  badgeTheme: 'cisco-cyan' | 'cisco-green' | 'cisco-olive' | 'cisco-blue' | 'cisco-round' | 'redhat' | 'cisco-diploma';
+  topics: string[];
+}
+
+export const CREDENTIALS_DATA: CredentialItem[] = [
+  // 1. Red Hat System Administration
+  {
+    id: 'rh124-rha',
+    title: 'Red Hat System Administration I (RH124 - RHA) - Ver. 9.3',
+    issuer: 'Red Hat',
+    type: 'badge',
+    status: 'Pending',
+    issuedDate: '17 de mayo de 2025',
+    category: 'Administración de Sistemas Linux Enterprise',
+    description: 'Entrenamiento oficial de Red Hat Academy sobre administración de sistemas Red Hat Enterprise Linux 9.3: gestión de archivos, usuarios, servicios systemd, permisos y almacenamiento.',
+    badgeTheme: 'redhat',
+    topics: ['Linux RHEL 9.3', 'Bash & Terminal', 'Systemd Services', 'Permisos POSIX']
+  },
+  // 2. Cisco Learn-A-Thon 2026
+  {
+    id: 'cisco-learnathon-2026',
+    title: 'Cisco Networking Academy Learn-A-Thon 2026',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Participant',
+    issuedDate: '10 de julio de 2026',
+    category: 'Capacitación Continua & Retos Técnicos',
+    description: 'Insignia de participante en el maratón global de aprendizaje de redes y tecnologías emergentes de Cisco Networking Academy.',
+    badgeTheme: 'cisco-round',
+    topics: ['Cisco NetAcad', 'Retos de Redes', 'Participante Oficial']
+  },
+  // 3. Computer Hardware Basics
+  {
+    id: 'computer-hardware-basics',
+    title: 'Computer Hardware Basics',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '03 de octubre de 2024',
+    category: 'Hardware & Arquitectura de Computadoras',
+    description: 'Fundamentos de componentes físicos de computadoras, buses, microprocesadores, memorias, almacenamiento, ensamblaje y diagnóstico metódico de fallas.',
+    badgeTheme: 'cisco-cyan',
+    topics: ['Arquitectura de Hardware', 'Diagnóstico de Fallas', 'CPUs & Placas Base', 'Almacenamiento']
+  },
+  // 4. Introduction to Cybersecurity
+  {
+    id: 'intro-cybersecurity-badge',
+    title: 'Introduction to Cybersecurity',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '21 de agosto de 2024',
+    category: 'Seguridad de la Información & Redes',
+    description: 'Comprensión de amenazas cibernéticas, ingeniería social, malware, criptografía básica, defensas perimetrales y principios de confidencialidad, integridad y disponibilidad (CIA Triad).',
+    badgeTheme: 'cisco-green',
+    topics: ['Amenazas & Malware', 'Criptografía', 'Defensas Perimetrales', 'CIA Triad']
+  },
+  // 5. Introduction to Data Science
+  {
+    id: 'intro-data-science-badge',
+    title: 'Introduction to Data Science',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '10 de octubre de 2024',
+    category: 'Ciencia de Datos & Análisis Exploratorio',
+    description: 'Fundamentos de recopilación de datos, limpieza estructurada, análisis exploratorio, correlaciones estadísticas y visualización gráfica con aplicaciones prácticas.',
+    badgeTheme: 'cisco-green',
+    topics: ['Ciencia de Datos', 'Limpieza de Datos', 'Estadística Descriptiva', 'Visualización']
+  },
+  // 6. Introduction to IoT
+  {
+    id: 'intro-iot-badge',
+    title: 'Introduction to IoT',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '08 de agosto de 2024',
+    category: 'Internet de las Cosas & Automatización',
+    description: 'Conexión de dispositivos embebidos, sensores y actuadores a internet, protocolos de comunicación IoT y análisis de datos en el borde (Edge Computing).',
+    badgeTheme: 'cisco-olive',
+    topics: ['Sensores & Actuadores', 'Protocolos IoT', 'Edge Computing', 'Automatización']
+  },
+  // 7. Networking Academy Learn-A-Thon 2025
+  {
+    id: 'cisco-learnathon-2025',
+    title: 'Networking Academy Learn-A-Thon 2025',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Participant',
+    issuedDate: '08 de julio de 2026',
+    category: 'Capacitación Continua & Retos Técnicos',
+    description: 'Insignia de participante en las jornadas globales Learn-A-Thon promovidas por Cisco Networking Academy.',
+    badgeTheme: 'cisco-round',
+    topics: ['Cisco Learn-A-Thon', 'Networking', 'Capacitación']
+  },
+  // 8. Networking Basics
+  {
+    id: 'networking-basics-badge',
+    title: 'Networking Basics',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '12 de septiembre de 2024',
+    category: 'Redes & Protocolos de Comunicación',
+    description: 'Arquitectura del modelo OSI y suite TCP/IP, direccionamiento IPv4/IPv6, subredes, switches, routers y protocolos de transporte (TCP/UDP).',
+    badgeTheme: 'cisco-blue',
+    topics: ['Modelo OSI & TCP/IP', 'Subredes IPv4/IPv6', 'Routing & Switching', 'Protocolos LAN/WAN']
+  },
+  // 9. Python Essentials 1 (Badge)
+  {
+    id: 'python-essentials-1-badge',
+    title: 'Python Essentials 1',
+    issuer: 'Cisco',
+    type: 'badge',
+    status: 'Verified',
+    issuedDate: '17 de octubre de 2024',
+    category: 'Programación & Fundamentos Algorítmicos',
+    description: 'Sintaxis central de Python, tipos de datos primitivos y compuestos, estructuras de control condicionales y bucles, funciones, módulos y depuración lógica.',
+    badgeTheme: 'cisco-cyan',
+    topics: ['Sintaxis Python', 'Estructuras de Control', 'Funciones & Módulos', 'Algoritmia']
+  },
+  // 10. Python Essentials 1 (Certificado)
+  {
+    id: 'python-essentials-1-cert',
+    title: 'Python Essentials 1',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '17 oct 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial de finalización de curso otorgado por Cisco Networking Academy tras aprobar evaluaciones teóricas y prácticas de programación estructurada en Python.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Python 3', 'Lógica de Programación', 'Colecciones & Listas', 'Evaluación Aprobada']
+  },
+  // 11. Introducción a la Ciencia de Datos (Certificado)
+  {
+    id: 'data-science-cert',
+    title: 'Introducción a la Ciencia de Datos',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '10 oct 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial que acredita el dominio de metodologías para el descubrimiento de patrones, toma de decisiones basada en datos y fundamentos de IA/ML.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Data Science', 'Metodologías de Análisis', 'Patrones en Datos', 'Toma de Decisiones']
+  },
+  // 12. Conceptos Básicos de Hardware de Computadoras (Certificado)
+  {
+    id: 'hardware-basics-cert',
+    title: 'Conceptos Básicos de Hardware de Computadoras',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '03 oct 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial de acreditación técnica en arquitectura de hardware de computadoras personales, periféricos y resolución de incidencias físicas.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Hardware PC', 'Arquitectura de Computadoras', 'Mantenimiento & Ensamble', 'Periféricos']
+  },
+  // 13. Conceptos básicos de redes (Certificado)
+  {
+    id: 'networking-basics-cert',
+    title: 'Conceptos básicos de redes',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '12 sept 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial en principios de networking, configuración básica de dispositivos de red y topologías de comunicación según estándares de la industria.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Redes de Datos', 'Topologías LAN', 'Configuración de Dispositivos', 'Protocolos de Internet']
+  },
+  // 14. Introducción a la Ciberseguridad (Certificado)
+  {
+    id: 'cybersecurity-cert',
+    title: 'Introducción a la Ciberseguridad',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '21 ago 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial que valida el conocimiento sobre protección de activos digitales, detección de vulnerabilidades y buenas prácticas de seguridad informática.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Seguridad Ofensiva/Defensiva', 'Mitigación de Riesgos', 'Protección de Redes', 'Estándares Cisco']
+  },
+  // 15. Introducción al Internet de las Cosas (Certificado)
+  {
+    id: 'iot-cert',
+    title: 'Introducción al Internet de las Cosas',
+    issuer: 'Cisco',
+    type: 'certificate',
+    status: 'Certificado',
+    issuedDate: '08 ago 2024',
+    category: 'Curso Oficial Cisco',
+    description: 'Certificado oficial en transformación digital, sensores, automatización y ecosistemas de dispositivos conectados.',
+    badgeTheme: 'cisco-diploma',
+    topics: ['Internet of Things', 'Automatización', 'Sensores Inteligentes', 'Transformación Digital']
+  }
+];
