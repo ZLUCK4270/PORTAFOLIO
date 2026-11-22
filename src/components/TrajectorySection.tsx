@@ -368,7 +368,7 @@ export const TrajectorySection: React.FC = () => {
                   <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2">
                       <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                      <span className="text-slate-300">Acreditado a: <strong>Zenón Luciano Acuña Chuquihuanca</strong></span>
+                      <span className="text-slate-300">Acreditado a: <strong>Zenon Luciano Acuña Choquehuanca</strong></span>
                     </div>
                     <span className="text-[11px] font-mono text-slate-400">SENATI · Quinto Ciclo</span>
                   </div>

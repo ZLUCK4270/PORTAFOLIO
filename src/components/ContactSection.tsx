@@ -78,7 +78,7 @@ export const ContactSection: React.FC = () => {
   };
 
   const handleCopySummary = () => {
-    const text = `Propuesta para Zenón Luciano Acuña (${emailAddress}):\nDe: ${formData.name} <${formData.email}>\nAsunto: ${formData.subject}\nMensaje:\n${formData.message}`;
+    const text = `Propuesta para Zenon Luciano Acuña (${emailAddress}):\nDe: ${formData.name} <${formData.email}>\nAsunto: ${formData.subject}\nMensaje:\n${formData.message}`;
     navigator.clipboard.writeText(text);
     setCopiedSummary(true);
     setTimeout(() => setCopiedSummary(false), 2000);
@@ -88,7 +88,7 @@ export const ContactSection: React.FC = () => {
   const gmailDirectUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}&su=${encodeURIComponent(
     formData.subject ? `[Portafolio] ${formData.subject}` : 'Contacto desde Portafolio Profesional'
   )}&body=${encodeURIComponent(
-    `Hola Zenón Luciano,\n\nMi nombre es ${formData.name || '[Nombre]'}.\n\n${
+    `Hola Zenon Luciano,\n\nMi nombre es ${formData.name || '[Nombre]'}.\n\n${
       formData.message || '[Escribe aquí tu consulta o propuesta laboral]'
     }\n\nContacto de respuesta: ${formData.email || '[Tu Correo]'}`
   )}`;

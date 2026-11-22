@@ -254,7 +254,7 @@ export const SkillsSection: React.FC = () => {
                   )}
 
                   <div className="pt-3 text-xs text-slate-500 border-t border-slate-800 flex items-center justify-between">
-                    <span>Portafolio de Zenón Luciano Acuña</span>
+                    <span>Portafolio de Zenon Luciano Acuña</span>
                     <span className={`font-mono ${getAccentText()}`}>SENATI · 5to Ciclo</span>
                   </div>
                 </div>

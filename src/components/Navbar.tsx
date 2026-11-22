@@ -47,7 +47,7 @@ export const Navbar: React.FC = () => {
             className={`text-lg font-bold font-display tracking-tight text-white ${getAccentHover()} transition-colors whitespace-nowrap shrink-0 flex items-center gap-2`}
           >
             <span className="w-2 h-2 rounded-full bg-blue-500" />
-            <span>Zenón Luciano Acuña</span>
+            <span>Zenon Luciano Acuña</span>
           </a>
 
           {/* Zone 2: 4–5 concise single-line text navigation links */}

@@ -52,9 +52,9 @@ export const HeroSection: React.FC = () => {
 
               {/* Main Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-5xl font-display font-extrabold tracking-tight text-white mb-4 text-balance leading-[1.14]">
-                Zenón Luciano <br />
+                Zenon Luciano <br />
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${getGradientTitle()}`}>
-                  Acuña Chuquihuanca
+                  Acuña Choquehuanca
                 </span>
               </h1>
 

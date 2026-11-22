@@ -220,7 +220,7 @@ export const ProjectsSection: React.FC = () => {
 
                 <div className="mt-8 pt-4 border-t border-slate-800 flex items-center justify-between">
                   <span className="text-xs font-mono text-slate-500">
-                    Desarrollado por Zenón Luciano Acuña · SENATI Quinto Ciclo
+                    Desarrollado por Zenon Luciano Acuña · SENATI Quinto Ciclo
                   </span>
                   <button
                     onClick={() => setSelectedProject(null)}

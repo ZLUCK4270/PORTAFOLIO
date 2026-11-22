@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
           {/* Brand & Identity */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <span className="text-sm font-bold font-display text-white">
-              Zenón Luciano Acuña Chuquihuanca
+              Zenon Luciano Acuña Choquehuanca
             </span>
             <span className="text-xs text-slate-500 mt-1">
               Ingeniería de Software con Inteligencia Artificial · SENATI Quinto Ciclo
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
 
         <div className="mt-8 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
           <div>
-            © {new Date().getFullYear()} Zenón Luciano Acuña Chuquihuanca. Todos los derechos reservados.
+            © {new Date().getFullYear()} Zenon Luciano Acuña Choquehuanca. Todos los derechos reservados.
           </div>
           <div className="font-mono text-slate-500">
             Portafolio Profesional · Ingeniería de Software & IA
